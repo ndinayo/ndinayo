@@ -1,120 +1,85 @@
-import { useEffect, useRef } from 'react';
-import { RiReactjsLine } from "react-icons/ri";
-import { SiWordpress, SiDjango, SiJavascript, SiTailwindcss, SiMysql } from "react-icons/si";
-import { FaJs } from "react-icons/fa";
-
-const Technologies = () => {
-  const containerRef = useRef(null);
-  const iconsRef = useRef([]);
-  const titleRef = useRef(null);
-  const hasAnimatedRef = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Reset animations when entering view
-            iconsRef.current.forEach((icon) => {
-              if (icon) {
-                icon.style.transform = 'translateY(30px)';
-                icon.style.opacity = '0';
-              }
-            });
-            if (titleRef.current) {
-              titleRef.current.style.transform = 'translateY(20px)';
-              titleRef.current.style.opacity = '0';
-            }
-
-            // Animate title
-            setTimeout(() => {
-              if (titleRef.current) {
-                titleRef.current.style.transition = 'transform 0.8s ease-out, opacity 0.8s ease-out';
-                titleRef.current.style.transform = 'translateY(0)';
-                titleRef.current.style.opacity = '1';
-              }
-            }, 100);
-
-            // Animate icons with staggered delay
-            iconsRef.current.forEach((icon, index) => {
-              setTimeout(() => {
-                if (icon) {
-                  icon.style.transition = `transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                                         opacity 0.8s ease`;
-                  icon.style.transform = 'translateY(0)';
-                  icon.style.opacity = '1';
-                }
-              }, 300 + index * 200); // Longer delay between icons (200ms)
-            });
-
-            hasAnimatedRef.current = true;
-          } else if (hasAnimatedRef.current) {
-            // Reset when scrolling back up
-            iconsRef.current.forEach((icon) => {
-              if (icon) {
-                icon.style.transition = 'none';
-                icon.style.transform = 'translateY(30px)';
-                icon.style.opacity = '0';
-              }
-            });
-            if (titleRef.current) {
-              titleRef.current.style.transition = 'none';
-              titleRef.current.style.transform = 'translateY(20px)';
-              titleRef.current.style.opacity = '0';
-            }
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(containerRef.current);
-      }
-    };
-  }, []);
-
+﻿import { createElement } from "react";
+import { FiCode, FiDatabase, FiLayout, FiTerminal } from "react-icons/fi";
+import Reveal from "./Reveal";
+const groups = [
+  {
+    title: "Frontend",
+    icon: FiLayout,
+    description: "Interfaces that feel as good as they look.",
+    tools: [
+      "React",
+      "TypeScript",
+      "JavaScript",
+      "HTML5",
+      "CSS3",
+      "Tailwind CSS",
+    ],
+  },
+  {
+    title: "Backend & data",
+    icon: FiDatabase,
+    description: "The logic that keeps everything moving.",
+    tools: [
+      "C#",
+      ".NET",
+      "Node.js",
+      "Python",
+      "Django",
+      "PHP",
+      "MySQL",
+      "REST APIs",
+    ],
+  },
+  {
+    title: "Web & workflow",
+    icon: FiTerminal,
+    description: "From a first commit to a live website.",
+    tools: ["Git", "GitHub", "WordPress", "Elementor", "Vite"],
+  },
+  {
+    title: "Exploring",
+    icon: FiCode,
+    description: "Always making room for the next idea.",
+    tools: ["Dart", "Machine learning", "Automation", "Data solutions"],
+  },
+];
+export default function Technologies() {
   return (
-    <div className="pb-4" ref={containerRef}>
-      <h2 
-        ref={titleRef}
-        className="my-20 text-center text-4xl"
-        style={{
-          opacity: 0,
-          transform: 'translateY(20px)'
-        }}
-      >
-        Technologies
-      </h2>
-      <div className="flex flex-wrap justify-center items-center gap-x-6">
-        {[
-          <RiReactjsLine key="react" className="text-7xl text-cyan-400" />,
-          <SiWordpress key="wordpress" className="text-6xl text-blue-600" />,
-          <SiDjango key="django" className="text-6xl text-green-600" />,
-          <FaJs key="js" className="text-6xl text-yellow-400" />,
-          <SiTailwindcss key="tailwind" className="text-7xl text-teal-500" />,
-          <SiMysql key="mysql" className="text-7xl text-blue-500" />
-        ].map((icon, index) => (
-          <div
-            key={icon.key}
-            ref={(el) => (iconsRef.current[index] = el)}
-            style={{
-              opacity: 0,
-              transform: 'translateY(30px)'
-            }}
-          >
-            {icon}
+    <section className="section wrap" id="stack">
+      <Reveal>
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">04 / THE TOOLKIT</p>
+            <h2>
+              Good ideas.
+              <br />
+              <span>The right tools.</span>
+            </h2>
           </div>
+          <p>
+            From the interface to the database,
+            <br />
+            here’s what I build with.
+          </p>
+        </div>
+      </Reveal>
+      <div className="stack-grid">
+        {groups.map(({ title, icon, description, tools }, i) => (
+          <Reveal className="stack-card" key={title}>
+            <div className="stack-top">
+              {createElement(icon)}
+              <span className="mono">0{i + 1}</span>
+            </div>
+            <h3>{title}</h3>
+            <p>{description}</p>
+            <div className="tags">
+              {tools.map((tool) => (
+                <span key={tool}>{tool}</span>
+              ))}
+            </div>
+          </Reveal>
         ))}
       </div>
-    </div>
+    </section>
   );
-};
-
-export default Technologies;
+}

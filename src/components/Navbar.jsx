@@ -1,75 +1,67 @@
-import { FaGithub, FaInstagram, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
-import logo from '../assets/ndinayo-logo.png';
-import { FaSquareXTwitter } from 'react-icons/fa6';
-
-const Navbar = () => {
-  const handleEmailClick = (e) => {
-    e.preventDefault();
-    window.open(
-      "mailto:ndinayoerics@gmail.com?subject=Portfolio Inquiry&body=Please include your email address in the message so I can respond to you.%0D%0A%0D%0AYour Message:",
-      "_blank"
-    );
-  };
-
+﻿import { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa";
+import { FiArrowUpRight, FiMenu, FiX } from "react-icons/fi";
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const close = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [open]);
   return (
-    <nav className="flex items-center justify-between p-6">
-      <div className="flex flex-shrink-0 items-center">
-        <a href="/" aria-label="Home">
-          <img src={logo} className="mx-2" width={50} height={50} alt="logo" />
-        </a>
-      </div>
-      <div className="m-8 flex items-center justify-center gap-4 text-2xl">
-        <a 
-          href="#"
-          onClick={handleEmailClick}
-          aria-label="Email"
-          className="hover:text-blue-500 transition-colors"
+    <header className="header">
+      <a className="skip-link" href="#about">
+        Skip to content
+      </a>
+      <nav className="wrap nav" aria-label="Main navigation">
+        <a
+          className="wordmark"
+          href="#home"
+          aria-label="Ndinayo Eric home"
+          onClick={() => setOpen(false)}
         >
-          <FaEnvelope />
+          ne<span>.</span>
         </a>
-
-        <a 
-          href="https://wa.me/250788702255"
-          target='_blank'
-          rel='noreferrer'
-          aria-label="WhatsApp"
-          className="hover:text-blue-500 transition-colors"
+        <div className={`nav-links ${open ? "is-open" : ""}`} id="navigation">
+          {[
+            ["About", "about"],
+            ["Work", "work"],
+            ["Stack", "stack"],
+            ["Journey", "journey"],
+          ].map(([label, id]) => (
+            <a key={id} href={`#${id}`} onClick={() => setOpen(false)}>
+              {label}
+            </a>
+          ))}
+          <a
+            className="nav-github"
+            href="https://github.com/ndinayo"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaGithub /> GitHub <FiArrowUpRight />
+          </a>
+        </div>
+        <a
+          className="nav-contact"
+          href="#contact"
+          onClick={() => setOpen(false)}
         >
-          <FaWhatsapp />
+          Let’s talk <FiArrowUpRight />
         </a>
-
-        <a 
-          href="https://github.com/ndinayo/"
-          target='_blank'
-          rel='noreferrer'
-          aria-label="GitHub"
-          className="hover:text-blue-500 transition-colors"
+        <button
+          className="menu-toggle"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="navigation"
+          onClick={() => setOpen(!open)}
         >
-          <FaGithub />
-        </a>
-
-        <a 
-          href="https://www.instagram.com/ndinayoeric/"
-          target='_blank'
-          rel='noreferrer'
-          aria-label="Instagram"
-          className="hover:text-blue-500 transition-colors"
-        >
-          <FaInstagram /> 
-        </a>
-
-        <a 
-          href="https://x.com/ndinayo_eric/"
-          target='_blank'
-          rel='noreferrer'
-          aria-label="Twitter"
-          className="hover:text-blue-500 transition-colors"
-        >
-          <FaSquareXTwitter />
-        </a>
-      </div>
-    </nav>
-  )
+          {open ? <FiX /> : <FiMenu />}
+        </button>
+      </nav>
+    </header>
+  );
 }
-
-export default Navbar;
