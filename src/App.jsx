@@ -69,9 +69,9 @@ function App() {
               </p>
               <p>
                 I’m Eric, a full stack developer based in Kigali, Rwanda. I
-                study Information Technology at the University of Rwanda and
-                have also studied at The GYM, bringing classroom foundations
-                into hands-on software development.
+                study Information Technology at the University of Rwanda,
+                bringing classroom foundations into hands-on software
+                development.
               </p>
               <p>
                 From building Vatcho to creating the Zala Safaris website, I

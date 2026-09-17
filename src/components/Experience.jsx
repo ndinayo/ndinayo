@@ -34,16 +34,6 @@ export default function Experience() {
           </Reveal>
           <Reveal className="timeline-item">
             <span className="timeline-dot" />
-            <p className="eyebrow">EDUCATION / PRACTICAL LEARNING</p>
-            <h3>The GYM</h3>
-            <h4>Software development</h4>
-            <p>
-              Studied alongside fellow developers, including Patrick Mbabazi,
-              building practical skills through shared learning.
-            </p>
-          </Reveal>
-          <Reveal className="timeline-item">
-            <span className="timeline-dot" />
             <p className="eyebrow">BUILDING / INDEPENDENT WORK</p>
             <h3>From learning to launching</h3>
             <h4>Full stack developer & creator</h4>
